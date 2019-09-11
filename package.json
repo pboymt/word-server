@@ -8,6 +8,10 @@
     "start": "node lib"
   },
   "author": "pboymt",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pboymt/word-server.git"
+  },
   "license": "ISC",
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
