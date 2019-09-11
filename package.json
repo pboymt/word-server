@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node lib",
-    "start:linux": "WORD_KEY=llb19950217 node lib",
-    "start:win": "set WORD_KEY=llb19950217&& node lib"
+    "start": "node lib"
   },
   "author": "pboymt",
   "license": "ISC",
