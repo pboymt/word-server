@@ -1,3 +1,9 @@
+export interface NCiba {
+    errno: number;
+    errmsg: string;
+    baesInfo: Word;
+}
+
 export interface Word {
     word_name: string,
     is_CRI: 1,

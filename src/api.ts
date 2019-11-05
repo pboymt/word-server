@@ -1,11 +1,14 @@
 import { Router } from "express";
 import axios from "axios";
-import { Word, WordModel } from "./interfaces";
+import { Word, WordModel, NCiba } from "./interfaces";
 import { db } from "./db";
 
 const ciba = axios.create({
     baseURL: 'http://dict-co.iciba.com/api'
 });
+const nciba = axios.create({
+    baseURL: 'http://www.iciba.com'
+})
 
 const api = Router();
 
@@ -53,13 +56,32 @@ api.post('/word', async (req, res) => {
         if (queryResult) {
             res.send({ code: 1, message: 'duplicated', data: queryResult.word });
         } else {
-            const word = (await ciba.get<Word>('/dictionary.php', {
-                params: {
-                    key: '937990F69DA81DC64C78AED7B84A05A3',
-                    type: 'json',
-                    w: body.word
+            let word: Word;
+            try {
+                word = (await ciba.get<Word>('/dictionary.php', {
+                    params: {
+                        key: '937990F69DA81DC64C78AED7B84A05A3',
+                        type: 'json',
+                        w: body.word
+                    },
+                    timeout: 6000
+                })).data;
+            } catch (error) {
+                const res = (await ciba.get<NCiba>('/index.php', {
+                    params: {
+                        a: 'getWordMean',
+                        c: 'search',
+                        list: '1',
+                        word: body.word
+                    }
+                })).data;
+                if (!res.errno) {
+                    word = res.baesInfo;
+                } else {
+                    throw res.errmsg;
                 }
-            })).data;
+            }
+
             // console.log(word);
             if (word.word_name) {
                 // if (word.is_CRI == 1) {
