@@ -67,7 +67,7 @@ api.post('/word', async (req, res) => {
                     timeout: 6000
                 })).data;
             } catch (error) {
-                const res = (await ciba.get<NCiba>('/index.php', {
+                const res = (await nciba.get<NCiba>('/index.php', {
                     params: {
                         a: 'getWordMean',
                         c: 'search',
